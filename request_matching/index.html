@@ -1,0 +1,1472 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../stores_graphql/">
+      
+      
+        <link rel="next" href="../openapi_validation/">
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>Advanced request matching - Imposter Mocks</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-K7GTJGJQ2S"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-K7GTJGJQ2S",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-K7GTJGJQ2S",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#advanced-request-matching" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Imposter Mocks" class="md-header__button md-logo" aria-label="Imposter Mocks" data-md-component="logo">
+      
+  <img src="../images/plain_logo14.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Imposter Mocks
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Advanced request matching
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Imposter Mocks" class="md-nav__button md-logo" aria-label="Imposter Mocks" data-md-component="logo">
+      
+  <img src="../images/plain_logo14.png" alt="logo">
+
+    </a>
+    Imposter Mocks
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://www.imposter.sh" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started/" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        Configuration guide
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        Response templates
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scripting/" class="md-nav__link">
+        Scripting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Mock types
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Mock types
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openapi_plugin/" class="md-nav__link">
+        OpenAPI (and Swagger)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rest_plugin/" class="md-nav__link">
+        REST
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../soap_plugin/" class="md-nav__link">
+        SOAP (and WSDL)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hbase_plugin/" class="md-nav__link">
+        HBase
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sfdc_plugin/" class="md-nav__link">
+        SFDC (Salesforce)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wiremock_plugin/" class="md-nav__link">
+        WireMock
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Data capture and storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Data capture and storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_capture/" class="md-nav__link">
+        Data capture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        Stores
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores_graphql/" class="md-nav__link">
+        GraphQL
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Advanced
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Advanced request matching
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Advanced request matching
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#matching-on-http-method-path-query-string-or-headers" class="md-nav__link">
+    Matching on HTTP method, path, query string or headers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matching-on-json-body" class="md-nav__link">
+    Matching on JSON body
+  </a>
+  
+    <nav class="md-nav" aria-label="Matching on JSON body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unmatched-or-null-jsonpath-expressions" class="md-nav__link">
+    Unmatched or null JsonPath expressions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matching-on-xml-body" class="md-nav__link">
+    Matching on XML body
+  </a>
+  
+    <nav class="md-nav" aria-label="Matching on XML body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reusing-xml-namespace-definitions" class="md-nav__link">
+    Reusing XML namespace definitions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unmatched-or-null-xpath-expressions" class="md-nav__link">
+    Unmatched or null XPath expressions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-multiple-request-body-matchers" class="md-nav__link">
+    Using multiple request body matchers
+  </a>
+  
+    <nav class="md-nav" aria-label="Using multiple request body matchers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#all-matchers-must-match" class="md-nav__link">
+    All matchers must match
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#at-least-one-matcher-must-match" class="md-nav__link">
+    At least one matcher must match
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#body-match-operators" class="md-nav__link">
+    Body match operators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-matching-performance" class="md-nav__link">
+    Resource matching performance
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openapi_validation/" class="md-nav__link">
+        OpenAPI validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_queries/" class="md-nav__link">
+        Template queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance_simulation/" class="md-nav__link">
+        Performance simulation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metrics_logs_telemetry/" class="md-nav__link">
+        Metrics, logs and telemetry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxy_endpoint/" class="md-nav__link">
+        Proxy an endpoint
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaffold/" class="md-nav__link">
+        Scaffolding configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fake_data/" class="md-nav__link">
+        Fake data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cors/" class="md-nav__link">
+        CORS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance_tuning/" class="md-nav__link">
+        Performance tuning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tls_ssl/" class="md-nav__link">
+        TLS/SSL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        Usage (arguments and environment variables)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        Features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groovy_tips/" class="md-nav__link">
+        Groovy scripting tips
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Other
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Other
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips_tricks/" class="md-nav__link">
+        Tips and tricks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          Developers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          Developers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/outofcoffee/imposter" class="md-nav__link">
+        GitHub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://medium.com/@outofcoffee/mocking-apis-with-swagger-and-imposter-3694bd1733c0" class="md-nav__link">
+        Mocking APIs with OpenAPI and Imposter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://medium.com/@outofcoffee/mocking-apis-with-imposter-53bd908632e5" class="md-nav__link">
+        Mocking REST APIs with Imposter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://medium.com/@outofcoffee/mocking-soap-web-services-with-imposter-da8e9666b5b4" class="md-nav__link">
+        Mocking SOAP web services with Imposter
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#matching-on-http-method-path-query-string-or-headers" class="md-nav__link">
+    Matching on HTTP method, path, query string or headers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matching-on-json-body" class="md-nav__link">
+    Matching on JSON body
+  </a>
+  
+    <nav class="md-nav" aria-label="Matching on JSON body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unmatched-or-null-jsonpath-expressions" class="md-nav__link">
+    Unmatched or null JsonPath expressions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matching-on-xml-body" class="md-nav__link">
+    Matching on XML body
+  </a>
+  
+    <nav class="md-nav" aria-label="Matching on XML body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reusing-xml-namespace-definitions" class="md-nav__link">
+    Reusing XML namespace definitions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unmatched-or-null-xpath-expressions" class="md-nav__link">
+    Unmatched or null XPath expressions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-multiple-request-body-matchers" class="md-nav__link">
+    Using multiple request body matchers
+  </a>
+  
+    <nav class="md-nav" aria-label="Using multiple request body matchers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#all-matchers-must-match" class="md-nav__link">
+    All matchers must match
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#at-least-one-matcher-must-match" class="md-nav__link">
+    At least one matcher must match
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#body-match-operators" class="md-nav__link">
+    Body match operators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-matching-performance" class="md-nav__link">
+    Resource matching performance
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="advanced-request-matching">Advanced request matching</h1>
+<p>You can match resources to requests using attributes such as the HTTP method, path, query string, headers or body (both JSON and XML supported).</p>
+<h2 id="matching-on-http-method-path-query-string-or-headers">Matching on HTTP method, path, query string or headers</h2>
+<p>See <a href="../configuration/">Configuration</a> for details of matching on HTTP method, path, query string or headers.</p>
+<h2 id="matching-on-json-body">Matching on JSON body</h2>
+<p>You can match a resource based on a JsonPath query of a JSON request body.</p>
+<blockquote>
+<p>Only JSON request bodies are supported for the feature.</p>
+</blockquote>
+<p>Specify the match configuration using the <code>requestBody.jsonPath</code> property of a resource.</p>
+<p>Here you specify a JsonPath expression, and the value it must match.</p>
+<p>For example:</p>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example1
+  requestBody:
+    jsonPath: $.foo
+    value: bar
+  response:
+    statusCode: 204
+</code></pre>
+<p>This example will match a request body like this:</p>
+<pre><code class="language-json">{ &quot;foo&quot;: &quot;bar&quot; }
+</code></pre>
+<h3 id="unmatched-or-null-jsonpath-expressions">Unmatched or null JsonPath expressions</h3>
+<p>If the result of evaluating the JsonPath expression is <code>null</code> or if the path evaluates to non-existent property in the body, then it is considered <code>null</code>.</p>
+<p>You can explicitly match a <code>null</code> value, as follows:</p>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example2
+  requestBody:
+    jsonPath: $.not-matching-example
+    value: null
+  response:
+    statusCode: 409
+</code></pre>
+<blockquote>
+<p>Note: the YAML keyword <code>null</code> indicates a null value, not the string literal <code>"null"</code></p>
+</blockquote>
+<h2 id="matching-on-xml-body">Matching on XML body</h2>
+<p>You can match a resource based on a XPath query of a XML request body.</p>
+<blockquote>
+<p>Only XML request bodies are supported for the feature.</p>
+</blockquote>
+<p>Specify the match configuration using the <code>requestBody.xPath</code> property of a resource.</p>
+<p>Here you specify a XPath expression, relevant namespaces, and the value it must match.</p>
+<p>For example:</p>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example1
+  requestBody:
+    xPath: &quot;/env:Envelope/env:Body/pets:animal/pets:name&quot;
+    value: &quot;Fluffy&quot;
+    xmlNamespaces:
+      env: &quot;http://schemas.xmlsoap.org/soap/envelope/&quot;
+      pets: &quot;urn:com:example:petstore&quot;
+  response:
+    statusCode: 204
+</code></pre>
+<p>This example will match a request body like this:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;env:Envelope xmlns:env=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+  &lt;env:Header/&gt;
+  &lt;env:Body&gt;
+    &lt;pets:animal xmlns:pets=&quot;urn:com:example:petstore&quot;&gt;
+      &lt;pets:name&gt;Fluffy&lt;/pets:name&gt;
+    &lt;/pets:animal&gt;
+  &lt;/env:Body&gt;
+&lt;/env:Envelope&gt;
+</code></pre>
+<blockquote>
+<p>Note: although this example uses a SOAP envelope, any valid XML body can be matched.</p>
+</blockquote>
+<h3 id="reusing-xml-namespace-definitions">Reusing XML namespace definitions</h3>
+<p>Instead of specifying the namespace definitions for each XPath expression, you can define them once at the top level of the configuration:</p>
+<pre><code class="language-yaml">plugin: rest
+
+resources:
+- method: GET
+  path: /example1
+  requestBody:
+    xPath: &quot;/env:Envelope/env:Body/pets:animal/pets:name&quot;
+    value: &quot;Fluffy&quot;
+  response:
+    statusCode: 204
+
+- method: GET
+  path: /example2
+  requestBody:
+    xPath: &quot;/env:Envelope/env:Body/pets:animal/pets:name&quot;
+    value: &quot;Paws&quot;
+  response:
+    statusCode: 400
+
+# XML namespaces shared by all XPath expressions
+system:
+  xmlNamespaces:
+    env: &quot;http://schemas.xmlsoap.org/soap/envelope/&quot;
+    pets: &quot;urn:com:example:petstore&quot;
+</code></pre>
+<h3 id="unmatched-or-null-xpath-expressions">Unmatched or null XPath expressions</h3>
+<p>If the result of evaluating the XPath expression is <code>null</code> or if the path evaluates to non-existent property in the body, then it is considered <code>null</code>.</p>
+<p>You can explicitly match a <code>null</code> value, as follows:</p>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example-nonmatch
+  requestBody:
+    xPath: &quot;/env:Envelope/env:Body/pets:animal/pets:nothing&quot;
+    # tilde is YAML for null
+    value: ~
+    xmlNamespaces:
+      env: &quot;http://schemas.xmlsoap.org/soap/envelope/&quot;
+      pets: &quot;urn:com:example:petstore&quot;
+  response:
+    statusCode: 409
+</code></pre>
+<blockquote>
+<p>Note: the YAML keyword <code>null</code> indicates a null value, not the string literal <code>"null"</code></p>
+</blockquote>
+<h2 id="using-multiple-request-body-matchers">Using multiple request body matchers</h2>
+<p>You can use multiple request body matchers for a resource. Using the <code>allOf</code> or <code>anyOf</code> conditions controls how the matchers are combined.</p>
+<h3 id="all-matchers-must-match">All matchers must match</h3>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example1
+  requestBody:
+    allOf:
+    - jsonPath: $.foo
+      value: bar
+    - jsonPath: $.baz
+      value: qux
+  response:
+    statusCode: 204
+</code></pre>
+<h3 id="at-least-one-matcher-must-match">At least one matcher must match</h3>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example1
+  requestBody:
+    anyOf:
+    - jsonPath: $.foo
+      value: bar
+    - jsonPath: $.baz
+      value: qux
+  response:
+    statusCode: 204
+</code></pre>
+<h2 id="body-match-operators">Body match operators</h2>
+<p>Body matchers support a number of operators to control how the match is performed.</p>
+<p>For example:</p>
+<pre><code class="language-yaml">resources:
+- method: GET
+  path: /example1
+  requestBody:
+    jsonPath: $.foo
+    value: bar
+    operator: NotEqualTo
+  response:
+    statusCode: 400
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>
+If no <code>operator</code> is specified, then <code>EqualTo</code> is used.</p>
+</blockquote>
+<p>The following operators are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EqualTo</code></td>
+<td>Checks if the expression result equals the <code>value</code>.</td>
+</tr>
+<tr>
+<td><code>NotEqualTo</code></td>
+<td>Checks if the expression result does not equal the <code>value</code>.</td>
+</tr>
+<tr>
+<td><code>Exists</code></td>
+<td>Checks if the expression result is not <code>null</code> or empty.</td>
+</tr>
+<tr>
+<td><code>NotExists</code></td>
+<td>Checks if the expression result is <code>null</code> or empty.</td>
+</tr>
+<tr>
+<td><code>Contains</code></td>
+<td>Checks if the expression result contains the <code>value</code>.</td>
+</tr>
+<tr>
+<td><code>NotContains</code></td>
+<td>Checks if the expression result does not contain the <code>value</code>.</td>
+</tr>
+<tr>
+<td><code>Matches</code></td>
+<td>Checks if the expression result matches the regular expression specified in the <code>value</code> field.</td>
+</tr>
+<tr>
+<td><code>NotMatches</code></td>
+<td>Checks if the expression result does not match the regular expression specified in the <code>value</code> field.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resource-matching-performance">Resource matching performance</h2>
+<p><a href="../configuration/">Resource matching</a> is typically the fastest method of providing conditional responses. This is the case for request properties such as headers, query parameters, path parameters, path and HTTP method. In the case of using JsonPath or XPath to query the request body to conditionally match resources, however, the body must be parsed, which is computationally expensive and will result in lower performance.</p>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>
